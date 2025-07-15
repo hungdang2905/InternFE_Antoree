@@ -54,7 +54,11 @@ const HomePage = () => {
                 onViewDetail={handleViewDetail}
                 favorites={favorites}
                 onToggleFavorite={toggleFavorite}
+                query={query}
+                priceRange={priceRange}
             />
+
+
 
             <Suggestions
                 onViewDetail={handleViewDetail}

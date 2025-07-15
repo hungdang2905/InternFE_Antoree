@@ -1,12 +1,13 @@
-
 import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { fetchProductById } from "../api/mockApi";
-import { Dropdown, Badge } from "react-bootstrap";
-import { ShoppingCart } from "react-feather";
+import { Dropdown, Badge, Button } from "react-bootstrap";
+import { ShoppingCart, X } from "react-feather";
+import { removeFromCart } from "../slices/cartSlice";
 
 const CartDropdown = () => {
     const cartIds = useSelector((state) => state.cart.items);
+    const dispatch = useDispatch();
     const [products, setProducts] = useState([]);
 
     useEffect(() => {
@@ -27,9 +28,19 @@ const CartDropdown = () => {
                     <Dropdown.ItemText>Giỏ hàng trống</Dropdown.ItemText>
                 ) : (
                     products.map((p) => (
-                        <Dropdown.ItemText key={p.id}>
-                            <div><strong>{p.name}</strong></div>
-                            <small>{p.price.toLocaleString()} VND</small>
+                        <Dropdown.ItemText key={p.id} className="d-flex justify-content-between align-items-start">
+                            <div>
+                                <strong>{p.name}</strong><br />
+                                <small>{p.price.toLocaleString()} VND</small>
+                            </div>
+                            <Button
+                                variant="outline-danger"
+                                size="sm"
+                                onClick={() => dispatch(removeFromCart(p.id))}
+                                title="Xoá khỏi giỏ"
+                            >
+                                <X size={16} />
+                            </Button>
                         </Dropdown.ItemText>
                     ))
                 )}

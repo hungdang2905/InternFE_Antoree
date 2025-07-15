@@ -1,10 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { Modal, Button, Spinner } from "react-bootstrap";
 import { fetchProductById } from "../api/mockApi";
+import { useDispatch, useSelector } from "react-redux";
+import { addToCart } from "../slices/cartSlice";
 
 const ProductModal = ({ show, handleClose, productId }) => {
     const [product, setProduct] = useState(null);
     const [loading, setLoading] = useState(true);
+
+    const dispatch = useDispatch();
+    const cartItems = useSelector((state) => state.cart.items);
+    const isInCart = product && cartItems.includes(product.id);
 
     useEffect(() => {
         if (productId) {
@@ -17,6 +23,12 @@ const ProductModal = ({ show, handleClose, productId }) => {
                 .catch(() => setLoading(false));
         }
     }, [productId]);
+
+    const handleSave = () => {
+        if (product && !isInCart) {
+            dispatch(addToCart(product.id));
+        }
+    };
 
     if (!show) return null;
 
@@ -35,7 +47,6 @@ const ProductModal = ({ show, handleClose, productId }) => {
                         <p><strong>Giá:</strong> {product.price.toLocaleString()} VND</p>
                         <p>{product.fullDescription}</p>
                         <p><strong>Giảng viên:</strong> {product.instructor}</p>
-
                         <p><strong>Đánh giá:</strong> {product.rating}⭐</p>
                     </>
                 ) : (
@@ -43,7 +54,17 @@ const ProductModal = ({ show, handleClose, productId }) => {
                 )}
             </Modal.Body>
             <Modal.Footer>
-                <Button variant="secondary" onClick={handleClose}>Đóng</Button>
+                {!isInCart && (
+                    <Button variant="success" onClick={handleSave}>
+                        Lưu khoá học
+                    </Button>
+                )}
+                {isInCart && (
+                    <Button variant="secondary" disabled>
+                        Đã lưu
+                    </Button>
+                )}
+                <Button variant="outline-secondary" onClick={handleClose}>Đóng</Button>
             </Modal.Footer>
         </Modal>
     );

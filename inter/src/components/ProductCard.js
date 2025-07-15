@@ -38,7 +38,7 @@ const ProductCard = ({ product, onViewDetail, onToggleFavorite, isFavorite }) =>
                     className="mt-2"
                     onClick={() => dispatch(isInCart ? removeFromCart(product.id) : addToCart(product.id))}
                 >
-                    {isInCart ? "Hủy lưu" : "Lưu "}
+                    {isInCart ? "Hủy lưu" : "Lưu khóa học "}
                 </Button>
             </Card.Body>
         </Card>
