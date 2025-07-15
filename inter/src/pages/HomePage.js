@@ -6,6 +6,7 @@ import Suggestions from "../components/Suggestions";
 import CustomToast from "../components/Toast";
 import { Container } from "react-bootstrap";
 import MessengerChat from "../components/MessengerChat";
+import CartDropdown from "../components/CartDropdown";
 
 const HomePage = () => {
     const storedFavorites = JSON.parse(localStorage.getItem("favorites") || "[]");
@@ -37,6 +38,10 @@ const HomePage = () => {
 
     return (
         <Container className="mt-4">
+            <div className="d-flex justify-content-end mb-3">
+                <CartDropdown/>
+            </div>
+
             <h2 className="mb-4">Danh sách sản phẩm</h2>
             <SearchFilter
                 query={query}
@@ -68,7 +73,7 @@ const HomePage = () => {
                 message={toastMessage}
                 onClose={() => setShowToast(false)}
             />
-            <MessengerChat />
+            <MessengerChat/>
         </Container>
     );
 };

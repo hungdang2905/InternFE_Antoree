@@ -1,7 +1,12 @@
 import React from "react";
 import { Card, Button } from "react-bootstrap";
+import {useDispatch, useSelector} from "react-redux";
+import { addToCart, removeFromCart } from "../slices/cartSlice";
 
 const ProductCard = ({ product, onViewDetail, onToggleFavorite, isFavorite }) => {
+    const dispatch = useDispatch();
+    const cartItems = useSelector(state => state.cart.items);
+    const isInCart = cartItems.includes(product.id);
     return (
         <Card className="h-100 shadow-sm">
             <Card.Img
@@ -28,6 +33,13 @@ const ProductCard = ({ product, onViewDetail, onToggleFavorite, isFavorite }) =>
                         ♥
                     </Button>
                 </div>
+                <Button
+                    variant={isInCart ? "secondary" : "success"}
+                    className="mt-2"
+                    onClick={() => dispatch(isInCart ? removeFromCart(product.id) : addToCart(product.id))}
+                >
+                    {isInCart ? "Hủy lưu" : "Lưu "}
+                </Button>
             </Card.Body>
         </Card>
     );

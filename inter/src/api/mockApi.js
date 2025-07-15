@@ -33,11 +33,12 @@ export const fetchSuggestions = (userId = 1) =>
             if (shouldFail) {
                 reject("Không thể lấy gợi ý lúc này.");
             } else {
-                const suggested = mockProducts.slice(0, 4);
+                const suggested = mockProducts.slice(0, 3); // ⚠️ chỉ lấy 3 sản phẩm
                 resolve(suggested);
             }
         }, 1000);
     });
+
 
 export const searchProducts = (query) =>
     new Promise((resolve) => {
